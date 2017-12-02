@@ -1,0 +1,31 @@
+c_posix
+c_windows
+drill
+gui
+mixedlang
+pa_sim
+psl
+systemc
+systemverilog
+triage
+tssi2mti
+tutorials
+ucdb
+ucis
+vcd
+verilog
+vhdl
+vrm
+work
+transcript
+single port ram/work
+single port ram/bindfile.sv.bak
+single port ram/mem.v.bak
+single port ram/mem_assertions.sv.bak
+single port ram/mem_tb.v.bak
+single port ram/single port ram.cr.mti
+single port ram/single port ram.mpf
+single port ram/vish_stacktrace.vstf
+single port ram/vsim.wlf
+.gitignore.bak
+README.md.bak
