@@ -29,3 +29,8 @@ single port ram/vish_stacktrace.vstf
 single port ram/vsim.wlf
 .gitignore.bak
 README.md.bak
+single port ram/waves.do.bak
+python work/.settings
+python work/__pycache__
+python work/.project
+python work/.pydevproject
