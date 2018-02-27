@@ -1,108 +1,83 @@
 `timescale 1ns/1ps
 `define data_width (8)
-`define ram_depth ((2**3))
+`define ram_depth ((1024))
 `define address_width ($clog2(`ram_depth))
 
 module mem_tb();
 
-
-	integer i;
+	integer j;
 	wire[`data_width-1:0] data;
 	reg clk;
 	reg we;
 	reg[`address_width-1:0] address;
+	reg cs;
+	reg oe;
 	reg[`data_width-1:0] data_out;
 
-
-	//Instantiation of the binding file
+	//instantiation of the binding module
 	binding_module bind1();
 
-
-	//Instantiation of the RAM module and connect the ports
-	mem dut(.data(data), .clk(clk), .address(address), .we(we));
-
-
-	assign data = (we) ? data_out : 8'bz;
-
+	//instantiation of the DUT
+	ram_sp_sr_sw dut(.data(data), .clk(clk), .address(address), .we(we), .cs(cs), .oe(oe) );
+	
+	//intialization of the inputs
 	initial begin
-		clk = 1'b1;
-		forever
-			#50 clk = ~clk;
+		clk<=0;
+		we<=0;
+		address<=0;
+		cs<=0;
+		oe<=0;
+		#5;
 	end
-
-	task write();
-		begin
-			we = 1'b1;
-		end
-	endtask
-
-	task read();
-		begin
-			we = 1'b0;
-		end
-	endtask
-
-	task stimulus(input[`address_width:0] i, input[`data_width:0] j);
-		begin
-			address = i;
-			data_out = j;
-		end
-	endtask
-
-
+	
+	//clock generation
+	always
+		#5  clk =  ! clk;
+	
+	assign data = (cs && we && !oe) ? data_out : 8'bz;
+	
 	initial begin
+		//write operations
+		cs<=1;we<=1;
 		
-		//write 0 then read 0 with up addressing order
-		for (i = 0; i < `ram_depth; i = i + 1) begin
+		for(j=0;j<(0.15)*`ram_depth;j=j+1) begin
 			@(negedge clk)
-				write;
-				stimulus(i, 8'h00);
-			@(negedge clk)
-				read;
-				address = i;	
+			address<=j;
+			assign data_out=$urandom(j)%255;
 		end
-		
-		#50;
-
-		
-		//write 1 then read 1 with up addressing order
-		for (i = 0; i < `ram_depth; i = i + 1) begin
+		#10;
+		for(j=(0.4)*`ram_depth;j<(0.6)*`ram_depth;j=j+1) begin
 			@(negedge clk)
-				write;
-				stimulus(i, 8'hff);
-			@(negedge clk)
-				read;
-				address = i;	
+			address<=j;
+			assign data_out=$urandom(j)%255;
 		end
-		
-		
-		#50;
-
-		
-		//write 0 then read 0 with down addressing order
-		for (i = `ram_depth -1; i >= 0; i = i - 1) begin
+		#10;
+		for(j=(0.85)*`ram_depth;j<`ram_depth;j=j+1) begin
 			@(negedge clk)
-				write;
-				stimulus(i, 8'h00);
-			@(negedge clk)
-				read;
-				address = i;
+			address<=j;
+			assign data_out=$urandom(j)%255;
 		end
+		#20;
 		
-		#50;
-
+		//Read Operations
+		we<=0;oe<=1;
 		
-		//write 1 then read 1 with down addressing order
-		for (i = `ram_depth -1; i >= 0; i = i - 1) begin
+		for(j=0;j<(0.15)*`ram_depth;j=j+1) begin
 			@(negedge clk)
-				write;
-				stimulus(i, 8'hff);
-			@(negedge clk)
-				read;
-				address = i;
+			address<=j;
 		end
+		#10;
+		for(j=(0.4)*`ram_depth;j<(0.6)*`ram_depth;j=j+1) begin
+			@(negedge clk)
+			address<=j;
+		end
+		#10;
+		for(j=(0.85)*`ram_depth;j<`ram_depth;j=j+1) begin
+			@(negedge clk)
+			address<=j;
+		end
+		#20;
 		
-		#100;
 		$finish;
 	end
 endmodule
