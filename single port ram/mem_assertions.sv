@@ -4,24 +4,19 @@
 `define address_width ($clog2(`ram_depth))
 
 module mem_asserts(
-	input clk_ip,
- 	input we_ip,
-  input int address_ip,
-  input int data_ip,
-  input cs_ip, 
-  input oe_ip);
+	input wire clk_ip,
+ 	input wire we_ip,
+  input wire [`address_width-1:0] address_ip,
+  input wire [`data_width-1:0] data_ip,
+  input wire cs_ip, 
+  input wire oe_ip);
 
-int mem_array[*];
-wire mem_array_exists;
-assign mem_array_exists=mem_array.exists(address_ip);
+reg [`data_width-1:0] scoreboard [0:`ram_depth-1];
 
 always@ (posedge clk_ip)
-	if(we_ip&&cs_ip&&!oe_ip) mem_array[address_ip] = data_ip;
+	if(we_ip&&cs_ip&&!oe_ip) scoreboard [address_ip] <= data_ip;
 
 //read_after_write
-assert property (@(posedge clk_ip) ( !we_ip && mem_array_exists ) |-> (mem_array[address_ip]==data_ip));
-
-//read_before_write
-assert property (@(posedge clk_ip) not( !we_ip && !mem_array_exists ));
+assert property (@(posedge clk_ip) ( !we_ip && cs_ip && oe_ip) ##[0:$] (data_ip==scoreboard [address_ip])) $display("@%0dns Assertion Pass scoreboard=%h,data=%h",$time,scoreboard[address_ip],data_ip); else $display("@%0dns Assertion Fail scoreboard=%h,data=%h",$time,scoreboard[address_ip],data_ip);
 
 endmodule
