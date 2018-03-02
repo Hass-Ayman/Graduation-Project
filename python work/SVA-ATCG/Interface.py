@@ -1,13 +1,17 @@
 import sys
+import os
+import subprocess
 from MainWindow import Ui_MainWindow
+from SubWindow import Ui_SubWindow
 from StartupConfig import ConfigParameters
 from PyQt5 import QtWidgets
 from TestbenchTemplate import TemplateGeneration
 from BindfileGeneration import BindingFile
 from DofileGeneration import DOFile
 import shutil
+import winsound
 
-class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow,ConfigParameters,TemplateGeneration,BindingFile,DOFile):
+class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow,ConfigParameters,TemplateGeneration,BindingFile,DOFile):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
@@ -16,7 +20,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow,ConfigParameters,TemplateG
         self.bro_out.clicked.connect(self.out_browse)
         self.gen.clicked.connect(self.generate)
         #self.sim.clicked.connect(self.simulate)
-        self.exit.clicked.connect(self.close)
+        self.exit.clicked.connect(self.close_all)
 
     def rtl_browse(self):
         fileName= str(QtWidgets.QFileDialog.getOpenFileName(self,"Select File", "", "Verilog Files (*.v*)"))
@@ -59,16 +63,31 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow,ConfigParameters,TemplateG
         ass_mod_name=self.extract_ass_module(ass_path)
         
         shutil.copy2(rtl_path,out_path)
-        self.BindingFileGeneration(out_path,assertions_ports,ass_mod_name,"binding_module")
-        self.DoFileGeneration(out_path)
+        self.BindingFileGeneration(out_path,assertions_ports,rtl_ports,ass_mod_name,"binding_module")
+        self.DoFileGeneration(out_path,rtl_ports)
         self.testbenchgeneration(out_path,parameters,rtl_mod_name,rtl_ports,"binding_module")
+        self.open_done_window()
         
+    def open_done_window(self):
+        self.window=QtWidgets.QMainWindow()
+        self.ui=Ui_SubWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
+        winsound.PlaySound("*", winsound.SND_ALIAS)
+        
+    def simulate(self):
+        source_directory=os.path.dirname(os.path.abspath(__file__))
+        out_path=self.out_path.text()
+        shutil.copy2(out_path+"/waves.do",source_directory)
+        subprocess.Popen(["C:\questasim64_10.2c\win64\questasim.exe","-do","waves.do"])
     
-    #def simulate(self):
+    def close_all(self):
+        source_directory=os.path.dirname(os.path.abspath(__file__))
+        os.remove(source_directory+"/waves.do")
+        self.close()
         
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = MainWindow()
     MainWindow.show()
-    conf=ConfigParameters()
     sys.exit(app.exec_())

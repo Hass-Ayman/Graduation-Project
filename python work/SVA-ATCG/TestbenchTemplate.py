@@ -1,32 +1,44 @@
 
 class TemplateGeneration():
     
-    def testbenchgeneration(self,path,parameters,rtl_module,rtl_ports,bindfile_module): #parameters(datawidth,ramdepth,addresswidth)
+    def testbenchgeneration(self,path,parameters,rtl_module,rtl_ports,bindfile_module):
+        
+        clk=rtl_ports[0]
+        address=rtl_ports[1]
+        data=rtl_ports[2]
+        we=rtl_ports[3]
+        oe=rtl_ports[4]
+        cs=rtl_ports[5]
+        
+        datawidth=parameters[0]
+        ramdepth=parameters[1]
+        addresswidth=parameters[2]
+        
         file=open(path +"/testbench.sv","w")
         file.write("`timescale 1ns/1p\n")
-        file.write("`define data_width ({})\n".format(parameters[0]))
-        file.write("`define ram_depth ({})\n".format(parameters[1]))
-        file.write("`define address_width ({})\n\n".format(parameters[2]))
+        file.write("`define data_width ({})\n".format(datawidth))
+        file.write("`define ram_depth ({})\n".format(ramdepth))
+        file.write("`define address_width ({})\n\n".format(addresswidth))
         file.write("module memory_tb();\n\n")
-        file.write("    reg clk;\n")
-        file.write("    reg[`address_width-1:0] address;\n")        
-        file.write("    wire[`data_width-1:0] data;\n")
-        file.write("    reg we;\n")
-        file.write("    reg oe;\n")
-        file.write("    reg cs;\n")
+        file.write("    reg {};\n".format(clk))
+        file.write("    reg[`address_width-1:0] {};\n".format(address))        
+        file.write("    wire[`data_width-1:0] {};\n".format(data))
+        file.write("    reg {};\n".format(we))
+        file.write("    reg {};\n".format(oe))
+        file.write("    reg {};\n".format(cs))
         file.write("    reg[`data_width-1:0] data_out;\n\n")
         file.write("    {} bindass();\n\n".format(bindfile_module))
-        file.write("    {} inst(.{}(clk), .{}(address), .{}(data), .{}(we), .{}(oe), .{}(cs);\n\n".format(rtl_module,rtl_ports[0],rtl_ports[1],rtl_ports[2],rtl_ports[3],rtl_ports[4],rtl_ports[5]))
+        file.write("    {} inst(.{}({}), .{}({}), .{}({}), .{}({}), .{}({}), .{}({});\n\n".format(rtl_module,clk,clk,address,address,data,data,we,we,oe,oe,cs,cs))
         file.write("    initial begin\n")
-        file.write("        clk <= 0;\n")
-        file.write("        address <= 0;\n")
-        file.write("        we <= 0;\n")
-        file.write("        oe <= 0;\n")
-        file.write("        cs <= 0;\n")
+        file.write("        {} <= 0;\n".format(clk))
+        file.write("        {} <= 0;\n".format(address))
+        file.write("        {} <= 0;\n".format(we))
+        file.write("        {} <= 0;\n".format(oe))
+        file.write("        {} <= 0;\n".format(cs))
         file.write("        #5;\n")
         file.write("    end\n\n")
         file.write("    always\n")
-        file.write("        #5  clk =  ! clk;\n\n")
-        file.write("    assign data = (cs && we && !oe) ? data_out : {}'bz;\n\n".format(parameters[0]))
+        file.write("        #5  {} =  ! {};\n\n".format(clk,clk))
+        file.write("    assign data = ({} && {} && !{}) ? data_out : {}'bz;\n\n".format(cs,we,oe,datawidth))
         
         file.write("endmodule")

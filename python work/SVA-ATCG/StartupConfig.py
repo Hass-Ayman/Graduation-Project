@@ -19,10 +19,11 @@ class ConfigParameters():
         return param
     
     def extract_ass_module(self,path): #Extracting Assertions Module Name
-        with open(path) as openfile:
+        with open (path) as openfile:
             for line in openfile:
-                start=line.index("module")+len("module")+1
-                end=line.index("(")-1
-                return line[start:end]
+                if(line.startswith("module")):
+                    start=line.index("module") + len("module")+1
+                    end=line.index("(",start)-1
+                    return line[start:end]
             
-        
+            
