@@ -1,26 +1,45 @@
 `timescale 1ns/1ps
-`define data_width (8)
-`define ram_depth ((1024))
-`define address_width ($clog2(`ram_depth))
+`define DATA_WIDTH (8)
+`define RAM_DEPTH (1024*1024*1024)
+`define ADDRESS_WIDTH (30)
 
 module mem_asserts(
-	input wire clk_ip,
- 	input wire we_ip,
-  input wire [`address_width-1:0] address_ip,
-  input wire [`data_width-1:0] data_ip,
-  input wire cs_ip, 
-  input wire oe_ip);
+	input wire clk,
+ 	input wire we,
+  input wire [`ADDRESS_WIDTH-1:0] address,
+  input wire [`DATA_WIDTH-1:0] data,
+  input wire cs, 
+  input wire oe);
 
-//scoreboard register
-reg [`data_width-1:0] scoreboard [0:`ram_depth-1];
+//scoreboard associative array
+reg [`DATA_WIDTH+`ADDRESS_WIDTH-1:0] scoreboard [*];
+
+//temporary array for comparison
+reg [`DATA_WIDTH+`ADDRESS_WIDTH-1:0] temp;
+
+wire scoreboard_exists;
+assign scoreboard_exists=scoreboard.exists(address);
+
 //writing in the scoreboard when writing to memory
-always@ (posedge clk_ip)
-	if(we_ip&&cs_ip&&!oe_ip) scoreboard [address_ip] <= data_ip;
+always@ (posedge clk) begin
+	if(we&&cs&&!oe) scoreboard [address] = {data,address};//can't use non blocking assignment with associative array
+end
+
+//temporary transition to compare the values
+always@ (posedge clk) begin
+	if(!we&&cs&&oe) temp <= scoreboard [address];
+end
 
 //read after write
-assert property (@(posedge clk_ip) ( !we_ip && cs_ip && oe_ip) |-> @(negedge clk_ip) (data_ip==scoreboard [address_ip]));
+assert property (@(posedge clk) ( !we && cs && oe && scoreboard_exists ) |-> ({data,address}==temp )) $display("@%0dns Assertion Pass scoreboard(data)=%h,data=%h,scoreboard(address)=%h,address=%h",$time,temp[`DATA_WIDTH+`ADDRESS_WIDTH-1:`ADDRESS_WIDTH],data,temp[`ADDRESS_WIDTH-1:0],address); else $display("@%0dns Assertion Fail scoreboard(data)=%h,data=%h,scoreboard(address)=%h,address=%h",$time,temp[`DATA_WIDTH+`ADDRESS_WIDTH-1:`ADDRESS_WIDTH],data,temp[`ADDRESS_WIDTH-1:0],address);
 
-//data can't change between two positive edges if we are only reading or writing
-assert property (@(posedge clk_ip) (cs_ip&&$stable(we_ip)) |-> (data_ip==$past(data_ip,0)));
+//read before write
+assert property (@(posedge clk) not ( !we && cs && oe && !scoreboard_exists ));
+
+//overwrite the written data
+//assert property(@(posedge clk) ( we && cs && !oe && scoreboard_exists ));
+
+//invalid data
+assert property(@(posedge clk) (!we && cs && oe) |-> ((^address !==1'bx )&&(^data !==1'bx)));
 
 endmodule

@@ -1,0 +1,60 @@
+C:/questasim64_10.2c/examples/fifo/fifo_sb.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/fifo_sb.sv
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+
+Top level modules:
+	--none--
+
+} {} {}} C:/questasim64_10.2c/examples/fifo/sv_tb_top.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/sv_tb_top.sv
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+-- Compiling interface fifo_ports
+-- Compiling interface fifo_monitor_ports
+-- Compiling program fifo_top
+
+Top level modules:
+	fifo_top
+
+} {} {}} C:/questasim64_10.2c/examples/fifo/bind_asserts.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/bind_asserts.sv
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+-- Compiling module binding_module
+
+Top level modules:
+	binding_module
+
+} {} {}} C:/questasim64_10.2c/examples/fifo/ram_dp_ar_aw.v {1 {vlog -work work -vopt C:/questasim64_10.2c/examples/fifo/ram_dp_ar_aw.v
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+-- Compiling module ram_dp_ar_aw
+
+Top level modules:
+	ram_dp_ar_aw
+
+} {} {}} C:/questasim64_10.2c/examples/fifo/syn_fifo.v {1 {vlog -work work -vopt C:/questasim64_10.2c/examples/fifo/syn_fifo.v
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+-- Compiling module syn_fifo
+
+Top level modules:
+	syn_fifo
+
+} {} {}} C:/questasim64_10.2c/examples/fifo/hdl_tb_top.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/hdl_tb_top.sv
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+-- Compiling module ram_dp_ar_aw
+-- Compiling module syn_fifo
+-- Compiling module fifo_tb
+
+Top level modules:
+	fifo_tb
+
+} {} {}} C:/questasim64_10.2c/examples/fifo/fifo_driver.sv {0 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/fifo_driver.sv
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+** Error: C:/questasim64_10.2c/examples/fifo/fifo_driver.sv(2): Invalid type 'fifo_sb'. Please check the type of the variable 'sb'.
+** Error: C:/questasim64_10.2c/examples/fifo/fifo_driver.sv(16): (vlog-2730) Undefined variable: 'sb'.
+
+
+} {3.0 5.0} {}} C:/questasim64_10.2c/examples/fifo/fifo_ports.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/fifo_ports.sv
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+-- Compiling interface fifo_ports
+-- Compiling interface fifo_monitor_ports
+
+Top level modules:
+	--none--
+
+} {} {}}

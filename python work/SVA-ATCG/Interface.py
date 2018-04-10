@@ -19,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow,ConfigParameters,TemplateGe
         self.bro_ass.clicked.connect(self.ass_browse)
         self.bro_out.clicked.connect(self.out_browse)
         self.gen.clicked.connect(self.generate)
-        #self.sim.clicked.connect(self.simulate)
+        self.sim.clicked.connect(self.simulate)
         self.exit.clicked.connect(self.close_all)
 
     def rtl_browse(self):
@@ -62,10 +62,11 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow,ConfigParameters,TemplateGe
         rtl_mod_name=self.mod_rtl.text()
         ass_mod_name=self.extract_ass_module(ass_path)
         
+        shutil.copy2(ass_path,out_path)
         shutil.copy2(rtl_path,out_path)
         self.BindingFileGeneration(out_path,assertions_ports,rtl_ports,ass_mod_name,"binding_module")
-        self.DoFileGeneration(out_path,rtl_ports)
-        self.testbenchgeneration(out_path,parameters,rtl_mod_name,rtl_ports,"binding_module")
+        self.DoFileGeneration(out_path)
+        self.testbenchgeneration(out_path,parameters,rtl_mod_name,rtl_ports,"binding_module",assertions_ports,ass_path)
         self.open_done_window()
         
     def open_done_window(self):
@@ -83,7 +84,18 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow,ConfigParameters,TemplateGe
     
     def close_all(self):
         source_directory=os.path.dirname(os.path.abspath(__file__))
-        os.remove(source_directory+"/waves.do")
+        try:
+            os.remove(source_directory+"/waves.do")
+        except OSError:
+            pass
+        try:
+            os.remove(source_directory+"/transcript")
+        except OSError:
+            pass
+        try:
+            os.remove(source_directory+"/assertions-temp.sv")
+        except OSError:
+            pass
         self.close()
         
 if __name__ == '__main__':

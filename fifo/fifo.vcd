@@ -1,0 +1,162 @@
+$date
+	Tue Apr 10 21:57:15 2018
+$end
+$version
+	QuestaSim Version 10.2c
+$end
+$timescale
+	1ns
+$end
+
+$scope module fifo_tb $end
+$var parameter 32 ! DATA_WIDTH $end
+$var parameter 32 " ADDR_WIDTH $end
+$var reg 1 # clk $end
+$var wire 1 $ rst $end
+$var wire 1 % wr_cs $end
+$var wire 1 & rd_cs $end
+$var wire 1 ' rd_en $end
+$var wire 1 ( wr_en $end
+$var wire 1 ) data_in [7] $end
+$var wire 1 * data_in [6] $end
+$var wire 1 + data_in [5] $end
+$var wire 1 , data_in [4] $end
+$var wire 1 - data_in [3] $end
+$var wire 1 . data_in [2] $end
+$var wire 1 / data_in [1] $end
+$var wire 1 0 data_in [0] $end
+$var wire 1 1 full $end
+$var wire 1 2 empty $end
+$var wire 1 3 data_out [7] $end
+$var wire 1 4 data_out [6] $end
+$var wire 1 5 data_out [5] $end
+$var wire 1 6 data_out [4] $end
+$var wire 1 7 data_out [3] $end
+$var wire 1 8 data_out [2] $end
+$var wire 1 9 data_out [1] $end
+$var wire 1 : data_out [0] $end
+
+$scope module bindass $end
+$upscope $end
+
+$scope module top $end
+$upscope $end
+
+$scope module fifo $end
+$var parameter 32 ; DATA_WIDTH $end
+$var parameter 32 < ADDR_WIDTH $end
+$var parameter 32 = RAM_DEPTH $end
+$var wire 1 > clk $end
+$var wire 1 $ rst $end
+$var wire 1 % wr_cs $end
+$var wire 1 & rd_cs $end
+$var wire 1 ' rd_en $end
+$var wire 1 ( wr_en $end
+$var wire 1 ) data_in [7] $end
+$var wire 1 * data_in [6] $end
+$var wire 1 + data_in [5] $end
+$var wire 1 , data_in [4] $end
+$var wire 1 - data_in [3] $end
+$var wire 1 . data_in [2] $end
+$var wire 1 / data_in [1] $end
+$var wire 1 0 data_in [0] $end
+$var wire 1 1 full $end
+$var wire 1 2 empty $end
+$var reg 8 ? data_out [7:0] $end
+$var reg 3 @ wr_pointer [2:0] $end
+$var reg 3 A rd_pointer [2:0] $end
+$var reg 4 B status_cnt [3:0] $end
+$var wire 1 C data_ram [7] $end
+$var wire 1 D data_ram [6] $end
+$var wire 1 E data_ram [5] $end
+$var wire 1 F data_ram [4] $end
+$var wire 1 G data_ram [3] $end
+$var wire 1 H data_ram [2] $end
+$var wire 1 I data_ram [1] $end
+$var wire 1 J data_ram [0] $end
+
+$scope begin WRITE_POINTER $end
+$upscope $end
+
+$scope begin READ_POINTER $end
+$upscope $end
+
+$scope begin READ_DATA $end
+$upscope $end
+
+$scope begin STATUS_COUNTER $end
+$upscope $end
+
+$scope module DP_RAM $end
+$var parameter 32 K DATA_WIDTH $end
+$var parameter 32 L ADDR_WIDTH $end
+$var parameter 32 M RAM_DEPTH $end
+$var wire 1 N address_0 [2] $end
+$var wire 1 O address_0 [1] $end
+$var wire 1 P address_0 [0] $end
+$var wire 1 % cs_0 $end
+$var wire 1 ( we_0 $end
+$var wire 1 Q oe_0 $end
+$var wire 1 R address_1 [2] $end
+$var wire 1 S address_1 [1] $end
+$var wire 1 T address_1 [0] $end
+$var wire 1 & cs_1 $end
+$var wire 1 U we_1 $end
+$var wire 1 ' oe_1 $end
+$var wire 1 ) data_0 [7] $end
+$var wire 1 * data_0 [6] $end
+$var wire 1 + data_0 [5] $end
+$var wire 1 , data_0 [4] $end
+$var wire 1 - data_0 [3] $end
+$var wire 1 . data_0 [2] $end
+$var wire 1 / data_0 [1] $end
+$var wire 1 0 data_0 [0] $end
+$var wire 1 C data_1 [7] $end
+$var wire 1 D data_1 [6] $end
+$var wire 1 E data_1 [5] $end
+$var wire 1 F data_1 [4] $end
+$var wire 1 G data_1 [3] $end
+$var wire 1 H data_1 [2] $end
+$var wire 1 I data_1 [1] $end
+$var wire 1 J data_1 [0] $end
+$var reg 8 V data_0_out [7:0] $end
+$var reg 8 W data_1_out [7:0] $end
+
+$scope begin MEM_WRITE $end
+$upscope $end
+
+$scope begin MEM_READ_0 $end
+$upscope $end
+
+$scope begin MEM_READ_1 $end
+$upscope $end
+$upscope $end
+$upscope $end
+
+$scope module U_assert $end
+$var wire 1 X clk $end
+$var wire 1 $ rst $end
+$var wire 1 % wr_cs $end
+$var wire 1 & rd_cs $end
+$var wire 1 ' rd_en $end
+$var wire 1 ( wr_en $end
+$var wire 1 ) data_in [7] $end
+$var wire 1 * data_in [6] $end
+$var wire 1 + data_in [5] $end
+$var wire 1 , data_in [4] $end
+$var wire 1 - data_in [3] $end
+$var wire 1 . data_in [2] $end
+$var wire 1 / data_in [1] $end
+$var wire 1 0 data_in [0] $end
+$var wire 1 1 full $end
+$var wire 1 2 empty $end
+$var wire 1 3 data_out [7] $end
+$var wire 1 4 data_out [6] $end
+$var wire 1 5 data_out [5] $end
+$var wire 1 6 data_out [4] $end
+$var wire 1 7 data_out [3] $end
+$var wire 1 8 data_out [2] $end
+$var wire 1 9 data_out [1] $end
+$var wire 1 : data_out [0] $end
+$var integer 32 Y count $end
+$var reg 8 Z cdata [7:0] $

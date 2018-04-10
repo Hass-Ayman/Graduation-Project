@@ -1,6 +1,6 @@
 `define data_width (8)
-`define ram_depth ((1024))
-`define address_width ($clog2(`ram_depth))
+`define ram_depth (1024*1024*1024)
+`define address_width (30)
 module ram_sp_sr_sw (
 clk         , // Clock Input
 address     , // Address Input

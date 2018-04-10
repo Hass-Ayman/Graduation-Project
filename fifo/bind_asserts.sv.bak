@@ -1,0 +1,14 @@
+module binding_module;
+bind fifo_tb fifo_asserts U_assert (
+clk
+rst
+wr_cs 
+rd_cs
+rd_en
+wr_en
+data_in 
+full
+empty
+data_out
+);
+endmodule
