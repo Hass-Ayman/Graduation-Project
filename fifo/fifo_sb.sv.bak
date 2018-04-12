@@ -11,7 +11,8 @@ class fifo_sb;
    task addItem(bit [7:0] data);
    begin
      if (size == 7) begin
-       $write("%dns : ERROR : Over flow detected, current occupancy %d\n",$time, size);
+       $write("%dns : ERROR : Over flow detected, current occupancy %d\n",
+         $time, size);
      end else begin
        fifo.put(data);
        size ++;
@@ -27,7 +28,8 @@ class fifo_sb;
      end else begin
        fifo.get (cdata);
        if (data != cdata) begin
-         $write("%dns : ERROR : Data mismatch, Expected %x Got %x\n",$time, cdata, data );
+         $write("%dns : ERROR : Data mismatch, Expected %x Got %x\n", 
+           $time, cdata, data );
        end
        size --;
      end

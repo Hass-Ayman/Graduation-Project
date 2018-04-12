@@ -1,8 +1,9 @@
-C:/questasim64_10.2c/examples/fifo/fifo_sb.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/fifo_sb.sv
+C:/questasim64_10.2c/examples/fifo/fifo_asserts.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/fifo_asserts.sv
 QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+-- Compiling module fifo_asserts
 
 Top level modules:
-	--none--
+	fifo_asserts
 
 } {} {}} C:/questasim64_10.2c/examples/fifo/sv_tb_top.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/sv_tb_top.sv
 QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
@@ -12,6 +13,12 @@ QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
 
 Top level modules:
 	fifo_top
+
+} {} {}} C:/questasim64_10.2c/examples/fifo/fifo_sb.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/fifo_sb.sv
+QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013
+
+Top level modules:
+	--none--
 
 } {} {}} C:/questasim64_10.2c/examples/fifo/bind_asserts.sv {1 {vlog -work work -vopt -sv C:/questasim64_10.2c/examples/fifo/bind_asserts.sv
 QuestaSim-64 vlog 10.2c Compiler 2013.07 Jul 19 2013

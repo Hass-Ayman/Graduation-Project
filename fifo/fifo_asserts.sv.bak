@@ -14,7 +14,7 @@ module fifo_asserts(
  input [`DATA_WIDTH-1:0] data_out) ;
  
 
- integer count=0;
+ integer count;
  
 //full and empty
 always@ (posedge clk  or posedge rst) begin 
@@ -27,7 +27,7 @@ assert property (@(posedge clk or posedge rst) (count==0) |-> (empty));
 assert property (@(posedge clk or posedge rst) (count==`RAM_DEPTH-1) |-> (full));
 
 //scoreboard mailbox
-mailbox fifo_sb=new();
+mailbox fifo_sb = new();
 
 //writing in the scoreboard when writing to fifo
 always@ (posedge clk) begin
@@ -43,20 +43,25 @@ always@ (posedge clk) begin
 	end
 end
 
-//read after write
+//read from fifo
 assert property(@(posedge clk) (rd_cs&&rd_en) |-> (data_out==cdata));
 
 //reset signal when goes high should eventually goes low
 assert property (@(posedge rst) $rose(rst) [*1:$] |-> $fell(rst));
 
-
 //when reset activated the buffer should be emptied
-assert property (@(posedge clk or posedge rst) (rst) |-> (data_out==0 && empty));
+assert property (@(posedge clk or posedge rst) (rst) |-> (^data_out==1'b0 && empty)) $display("yes baby");
 
 //full and empty are mutually exclusive
 assert property (@(posedge clk or posedge rst) not( empty && full ));
 
 //invalid data
 assert property(@(posedge clk) (rd_cs&&rd_en) |-> (^data_out!==1'bx));
+
+//can't read when the fifo is empty
+assert property(@(posedge clk) not (rd_cs&&rd_en&&empty));
+
+//can't write when the fifo is full
+assert property(@(posedge clk) not (wr_cs&&wr_en&&full));
 
 endmodule
